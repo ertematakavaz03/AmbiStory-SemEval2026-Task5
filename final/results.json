@@ -1,0 +1,237 @@
+{
+  "meta": {
+    "sizes": {
+      "train": 2280,
+      "dev": 588,
+      "test": 930
+    },
+    "holdout": {
+      "fit": 2004,
+      "holdout": 276,
+      "holdout_homonyms": 22
+    },
+    "homonym_overlap": {
+      "dev_in_train": 0,
+      "test_in_train": 1
+    },
+    "label_stats": {
+      "mean_avg": 3.140029239766082,
+      "mean_stdev": 0.9482893987059047,
+      "frac_high_disagreement": 0.34868421052631576
+    },
+    "runtime_mode": "GPU / deberta-v3-large (canonical)",
+    "wall_time_sec": 1529.7
+  },
+  "targets": {
+    "OK": {
+      "accuracy_at_std": 0.7,
+      "spearman": 0.6
+    },
+    "Good": {
+      "accuracy_at_std": 0.8,
+      "spearman": 0.7
+    }
+  },
+  "baselines": {
+    "majority_4": {
+      "accuracy_at_std": 0.5697278911564626,
+      "spearman": NaN
+    },
+    "mean_of_train": {
+      "accuracy_at_std": 0.5272108843537415,
+      "spearman": NaN
+    },
+    "tfidf_cosine": {
+      "accuracy_at_std": 0.5629251700680272,
+      "spearman": 0.18518155003560594
+    },
+    "feature_ridge": {
+      "accuracy_at_std": 0.5680272108843537,
+      "spearman": 0.16617819498352493
+    }
+  },
+  "components": {
+    "A_nli": {
+      "model": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+      "dev": {
+        "accuracy_at_std": 0.6241496598639455,
+        "spearman": 0.3806167594163828
+      },
+      "holdout_spearman": 0.3837713938884297,
+      "calibration_linear_dev_spearman": 0.3778666346991165
+    },
+    "B_encoder": {
+      "model": "microsoft/deberta-v3-large",
+      "seeds": [
+        13,
+        42,
+        123
+      ],
+      "best_holdout_rho": 0.5756975549818762,
+      "holdout_curves": [
+        [
+          0.4138097415902686,
+          0.5155075447041811,
+          0.5650003464431438,
+          0.5657911014877367
+        ],
+        [
+          0.5735006411962834,
+          0.5513319461447745,
+          0.5922024260422858,
+          0.6000575707618407
+        ],
+        [
+          0.4284992282373967,
+          0.5537746394033318,
+          0.5348963742519399,
+          0.5612439926960515
+        ]
+      ],
+      "dev": {
+        "accuracy_at_std": 0.7670068027210885,
+        "spearman": 0.6101135402637492
+      }
+    },
+    "C_likert": {
+      "model": "microsoft/deberta-v3-large",
+      "objective": "distribution",
+      "best_holdout_rho": 0.605474323754935,
+      "holdout_curves": [
+        [
+          0.5863202578681929,
+          0.6480582016251272,
+          0.6730132964741807,
+          0.6772404545470624
+        ],
+        [
+          0.4897369841064244,
+          0.5447855002301072,
+          0.562657318641012,
+          0.5690480728336847
+        ],
+        [
+          0.42255546680952366,
+          0.5330740716165581,
+          0.5640889504724564,
+          0.5701344438840581
+        ]
+      ],
+      "dev": {
+        "accuracy_at_std": 0.7687074829931972,
+        "spearman": 0.5783244758568029
+      }
+    }
+  },
+  "ensemble": {
+    "weights": {
+      "A_nli": 0.42000000000000004,
+      "B_encoder": 0.04,
+      "C_likert": 0.54
+    },
+    "dev_continuous": {
+      "accuracy_at_std": 0.7329931972789115,
+      "spearman": 0.5876444463001718
+    },
+    "dev_integer": {
+      "accuracy_at_std": 0.7125850340136054,
+      "spearman": 0.5581010949141929
+    },
+    "dev_uncertainty_gated": {
+      "accuracy_at_std": 0.6989795918367347,
+      "spearman": 0.5919799409649891
+    },
+    "verdict": "Below OK"
+  },
+  "ablations": {
+    "nli_calibration": {
+      "isotonic": 0.3806167594163828,
+      "linear": 0.3778666346991165
+    },
+    "head_objective": {
+      "distribution_KL": 0.5783244758568029,
+      "mse_regressor": 0.6101135402637492,
+      "corn_ordinal": 0.5131163675857483
+    },
+    "continuous_vs_int": {
+      "continuous": {
+        "accuracy_at_std": 0.7329931972789115,
+        "spearman": 0.5876444463001718
+      },
+      "rounded_int": {
+        "accuracy_at_std": 0.7125850340136054,
+        "spearman": 0.5581010949141929
+      }
+    },
+    "ensemble_drop_one": {
+      "drop_A": {
+        "accuracy_at_std": 0.7482993197278912,
+        "spearman": 0.5891911764770551
+      },
+      "drop_B": {
+        "accuracy_at_std": 0.7295918367346939,
+        "spearman": 0.5863719009940155
+      },
+      "drop_C": {
+        "accuracy_at_std": 0.6615646258503401,
+        "spearman": 0.45078783452133964
+      }
+    }
+  },
+  "classification": {
+    "confusion_matrix": [
+      [
+        4,
+        35,
+        25,
+        3,
+        1
+      ],
+      [
+        3,
+        56,
+        61,
+        13,
+        0
+      ],
+      [
+        1,
+        23,
+        67,
+        48,
+        6
+      ],
+      [
+        0,
+        15,
+        50,
+        74,
+        8
+      ],
+      [
+        0,
+        2,
+        23,
+        60,
+        10
+      ]
+    ],
+    "labels": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "macro_precision": 0.3995356933518117,
+    "macro_recall": 0.3101219289893816,
+    "macro_f1": 0.2972687479755396,
+    "per_class_f1": [
+      0.10526315789473684,
+      0.42424242424242425,
+      0.3611859838274933,
+      0.4289855072463768,
+      0.16666666666666666
+    ]
+  }
+}
