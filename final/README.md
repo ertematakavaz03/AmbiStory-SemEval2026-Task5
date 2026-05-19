@@ -1,4 +1,4 @@
-# GroupXX — SemEval-2026 Task 5 · Final Deliverable
+# Group24 — SemEval-2026 Task 5 · Final Deliverable
 
 Everything required by Section E ("Final Reports") of the CS445 project
 description for the 18 May 2026 final submission. Replace `GroupXX` and the
